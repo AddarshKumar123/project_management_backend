@@ -1,0 +1,34 @@
+pipeline{
+
+    agent any
+
+    stages{
+        stage("Checkout"){
+            steps{
+                checkout scm
+            }
+        }
+
+        stage("Docker Build"){
+            steps{
+                echo "Building docker image using dockerfile"
+                bat "cd Server && docker build -t addarshkumar/project_track:latest ."
+            }
+        }
+
+        stage("Push Docker image"){
+            steps{
+                bat "docker push addarshkumar/project_track:latest"
+            }
+        }
+    }
+
+    post{
+        success{
+            echo "Image successfully pushed to dockerhub"
+        }
+        failure{
+            echo "Pipeline failed! check the logs"
+        }
+    }
+}
