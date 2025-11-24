@@ -12,7 +12,9 @@ pipeline{
         stage("Docker Build"){
             steps{
                 echo "Building docker image using dockerfile"
-                bat "cd Server && docker build -t addarshkumar/project_track:latest ."
+                dir('Server') {
+                    bat "docker build -t addarshkumar/project_track:latest ."
+                }
             }
         }
 
